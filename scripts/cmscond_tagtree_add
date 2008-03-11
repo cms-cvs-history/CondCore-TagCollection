@@ -19,6 +19,7 @@ def convertnodedata(mynodevalue):
     for pair in metadatalist:
         mydata=pair.split('=')
         mynodedata[mydata[0]]=mydata[1]
+    print 'mynodedata'
     return mynodedata
 
 def convertnodecollection(value):
@@ -112,6 +113,7 @@ class tagTreeBuilder:
             if configparser.has_option(treesection, 'leafdata'):
                 leafdata=stripws(configparser.get(treesection,'leafdata'))
                 self.__leafcollection=convertnodecollection(leafdata)
+                print self.__leafcollection
             if self.__parser.values.verbose is True:
                 print 'config file: ',self.__parser.values.filename
         else:
@@ -166,18 +168,26 @@ class tagTreeBuilder:
                 mytree.insertNode(mynode,item['parent'])
             if len(self.__leafcollection)!=0:
                 inv=tagInventory.tagInventory(session)
-                for leafdata in self.__leafcollection:                
+                for leafdata in self.__leafcollection:
+                    print 'HERE'
                     myleaf=Node.Node()
                     myleaf.globalsince=0
                     myleaf.globaltill=0
                     myleaf.tagid=0
                     myleaf.nodelabel=leafdata['nodelabel']
+                    print 'again ',myleaf.nodelabel
                     if leafdata.has_key('tagname') is False:
                         raise ValueError, "tagname is not specified for the leaf node "+myleaf.nodelabel
                     tagname=leafdata['tagname']
-                    result=inv.getEntryByName(tagname)
+                    print 'tagname', tagname
+                    mypfn=''
+                    if leafdata.has_key('pfn') is True:
+                        mypfn=leafdata['pfn']
+                        print 'leafdata pfn ',mypfn
+                    result=inv.getEntryByName(tagname,mypfn)
+                    print 'result',result
                     if result.tagid == 0:
-                        raise ValueError, "unknown tag \'"+leafdata['tagname']+"\' in the inventory"
+                        raise ValueError, "unknown tag \'"+leafdata['tagname']+" "+leafdata['pfn']+"\' in the inventory"
                     myleaf.tagid=result.tagid
                     if not leafdata.has_key('parent'):
                         raise KeyError,'no parent parameter for'+myleaf.nodelabel

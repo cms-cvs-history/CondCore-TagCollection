@@ -21,6 +21,7 @@ class DBImpl(object):
                 inputData[name].setData(tabrowValueDict[name])
             editor.insertRow( inputData )
         except Exception, e:
+            print 'EEEE',e
             raise Exception, str(e)
     def deleteRows( self, tableName, condition, conditionbindDict ):
         """Delete row(s)
