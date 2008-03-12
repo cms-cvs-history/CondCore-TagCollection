@@ -2,10 +2,19 @@
 connect=sqlite_file:GRUMMDB.db
 
 [TAGINVENTORY]
-tagdata=CSA07_SiStrip_Ideal_Gain_v2{pfn=frontier://Frontier/CMS_COND_18X_STRIP,objectname=SiStripApvGain,recordname=SiStripApvGainRcd};SiStrip_Ideal_Gain_v3{pfn=frontier://Frontier/CMS_COND_18X_STRIP,objectname=SiStripApvGain,recordname=SiStripApvGainRcd};SiPixel_Ideal_Gain_v4{pfn=frontier://Frontier/CMS_COND_18X_STRIP,objectname=SiStripApvGain,recordname=SiStripApvGainRcd}
+tagdata=
+ CSA07_SiStrip_Ideal_Gain_v2{pfn=frontier://Frontier/CMS_COND_18X_STRIP,objectname=SiStripApvGain,recordname=SiStripApvGainRcd};
+ SiStrip_Ideal_Gain_v3{pfn=frontier://Frontier/CMS_COND_18X_STRIP,objectname=SiStripApvGain,recordname=SiStripApvGainRcd};
+ SiPixel_Ideal_Gain_v4{pfn=frontier://Frontier/CMS_COND_18X_STRIP,objectname=SiStripApvGain,recordname=SiStripApvGainRcd}
 
 [TAGTREE GRUMM]
 root=All
-nodedata=Calibration{parent=All};Alignment{parent=All}
-leafdata=SiStripGain{parent=Calibration,tagname=CSA07_SiStrip_Ideal_Gain_v2};SiStripGainForAlign{parent=Alignment,tagname=CSA07_SiStrip_Ideal_Gain_v2}
+
+nodedata= 
+ Calibration{parent=All};
+ Alignment{parent=All}
+
+leafdata=
+ SiStripGain{parent=Calibration,tagname=CSA07_SiStrip_Ideal_Gain_v2,pfn=frontier://Frontier/CMS_COND_18X_STRIP};
+ SiStripGainForAlign{parent=Alignment,tagname=CSA07_SiStrip_Ideal_Gain_v2}
 

@@ -148,7 +148,7 @@ class  tagInventory(object):
             query.setCondition( condition, conditionData)
             cursor = query.execute()
             while ( cursor.next() ):
-                print 'got it'
+                #print 'got it'
                 leafnode.tagid=cursor.currentRow()['tagid'].data()
                 leafnode.tagname=cursor.currentRow()['tagname'].data()
                 leafnode.objectname=cursor.currentRow()['objectname'].data()
