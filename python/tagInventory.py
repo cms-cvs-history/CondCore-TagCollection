@@ -68,18 +68,28 @@ class  tagInventory(object):
             transaction.start(True)
             schema = self.__session.nominalSchema()
             generator=IdGenerator.IdGenerator(schema)
-            tagid=generator.getNewID(self.__tagInventoryIDName)
-            transaction.commit()
-            transaction.start(False)
             dbop=DBImpl.DBImpl(schema)
-            tabrowValueDict={'tagid':tagid,'tagname':leafNode.tagname,'objectname':leafNode.objectname,'pfn':leafNode.pfn,'labelname':leafNode.labelname,'recordname':leafNode.recordname,'timetype':leafNode.timetype,'comment':leafNode.comment}
-            dbop.insertOneRow(self.__tagInventoryTableName,
-                              self.__tagInventoryTableColumns,
-                              tabrowValueDict)
+            condition='tagname=:tagname'
+            conditionbindDict=coral.AttributeList()
+            conditionbindDict.extend('tagname','string')
+            conditionbindDict['tagname'].setData(leafNode.tagname)
+            if len(leafNode.pfn)!=0:
+                condition+=' AND pfn=:pfn'
+                conditionbindDict.extend('pfn','string')
+                conditionbindDict['pfn'].setData(leafNode.pfn)
+            duplicate=False;
+            duplicate=dbop.existRow(self.__tagInventoryTableName,condition,conditionbindDict)
+            if duplicate is False:
+                tagid=generator.getNewID(self.__tagInventoryIDName)
             transaction.commit()
-            transaction.start(False)
-            generator.incrementNextID(self.__tagInventoryIDName)
-            transaction.commit()
+            if duplicate is False:
+                tabrowValueDict={'tagid':tagid,'tagname':leafNode.tagname,'objectname':leafNode.objectname,'pfn':leafNode.pfn,'labelname':leafNode.labelname,'recordname':leafNode.recordname,'timetype':leafNode.timetype,'comment':leafNode.comment}
+                transaction.start(False)
+                dbop.insertOneRow(self.__tagInventoryTableName,
+                                  self.__tagInventoryTableColumns,
+                                  tabrowValueDict)
+                generator.incrementNextID(self.__tagInventoryIDName)
+                transaction.commit()
             return tagid
         except Exception, er:
             transaction.rollback()
@@ -112,7 +122,7 @@ class  tagInventory(object):
             cursor = query.execute()
             counter=0
             while ( cursor.next() ):
-                if counter !=0 :
+                if counter > 0 :
                     raise ValueError, "tagName "+tagName+" is not unique, please further specify parameter pfn"
                 counter+=1
                 leafnode.tagid=cursor.currentRow()['tagid'].data()

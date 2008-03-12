@@ -170,7 +170,6 @@ class tagTreeBuilder:
             if len(self.__leafcollection)!=0:
                 inv=tagInventory.tagInventory(session)
                 for leafdata in self.__leafcollection:
-                   # print 'HERE'
                     myleaf=Node.Node()
                     myleaf.globalsince=0
                     myleaf.globaltill=0
@@ -180,13 +179,11 @@ class tagTreeBuilder:
                     if leafdata.has_key('tagname') is False:
                         raise ValueError, "tagname is not specified for the leaf node "+myleaf.nodelabel
                     tagname=leafdata['tagname']
-                    #print 'tagname', tagname
                     mypfn=''
                     if leafdata.has_key('pfn') is True:
                         mypfn=leafdata['pfn']
                        # print 'leafdata pfn ',mypfn
                     result=inv.getEntryByName(tagname,mypfn)
-                    #print 'result',result
                     if result.tagid == 0:
                         raise ValueError, "unknown tag \'"+leafdata['tagname']+" "+leafdata['pfn']+"\' in the inventory"
                     myleaf.tagid=result.tagid
