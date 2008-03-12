@@ -12,7 +12,7 @@ class tagTree(object):
         self.__tagInventoryTableName = 'TAGINVENTORY_TABLE'
         self.__tagTreeTableColumns = {'nodeid':'unsigned long', 'nodelabel':'string', 'lft':'unsigned long', 'rgt':'unsigned long', 'parentid':'unsigned long', 'tagid':'unsigned long', 'globalsince':'unsigned long long', 'globaltill':'unsigned long long','comment':'string'}
         self.__tagTreeTableNotNullColumns = ['nodelabel','lft','rgt','parentid']
-        self.__tagTreeTableUniqueColumns = ['nodelabel','lft']
+        self.__tagTreeTableUniqueColumns = ['nodelabel']
         self.__tagTreeTablePK = ('nodeid')
     def existTagTreeTable( self ):
         """Check if tree table exists
@@ -87,10 +87,6 @@ class tagTree(object):
             duplicate=dbop.existRow(self.__tagTreeTableName,condition,conditionbindDict)
             if duplicate is False:
                 nodeid=generator.getNewID(self.__tagTreeIDs)
-                #nodelabel=node.nodelabel
-                #globalsince=node.globalsince
-                #globaltill=node.globaltill
-                #tagid=node.tagid
                 if parentLabel != 'ROOT':
                     parentNode=self.getNode(parentLabel)
                     if parentNode.empty():

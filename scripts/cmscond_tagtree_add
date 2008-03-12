@@ -160,6 +160,7 @@ class tagTreeBuilder:
                 mynode.globaltill=0
                 mynode.tagid=0
                 mynode.nodelabel=item['nodelabel']
+                print 'adding node ',mynode.nodelabel
                 if item.has_key('globalsince'):
                     mynode.globalsince=nodedata['globalsince']
                 if item.has_key('globaltill'):
@@ -167,6 +168,7 @@ class tagTreeBuilder:
                 if not item.has_key('parent'):
                     raise KeyError,'no parent parameter for'+mynode.nodelabel
                 mytree.insertNode(mynode,item['parent'])
+                print 'added'
             if len(self.__leafcollection)!=0:
                 inv=tagInventory.tagInventory(session)
                 for leafdata in self.__leafcollection:
@@ -189,7 +191,9 @@ class tagTreeBuilder:
                     myleaf.tagid=result.tagid
                     if not leafdata.has_key('parent'):
                         raise KeyError,'no parent parameter for'+myleaf.nodelabel
+                    print 'adding leaf node ',myleaf.nodelabel
                     mytree.insertNode(myleaf,leafdata['parent'])
+                    print 'done'
             del session
         except Exception, e:
             print str(e)
