@@ -23,7 +23,7 @@ class DBImpl(object):
             del query
             return result
         except Exception, e:
-            return False
+            raise Exception, str(e)
     def insertOneRow( self, tableName, tabrowDefDict, tabrowValueDict ):
         """Insert row 
         """
