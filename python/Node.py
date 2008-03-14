@@ -24,7 +24,7 @@ class Node(object):
             raise AttributeError("Unknown attribute "+name)
         return self.__dict__[name]
     def empty( self ):
-        if self.__dict__['nodeid']==0:
+        if self.__dict__['nodelabel']=='':
             return True
         return False
 class LeafNode(Node):
