@@ -1,2 +1,3 @@
 <use name=CondCore/DBCommon>
 <bin file=writeTestTagDB.cpp></bin>
+<bin file=testPfnEditor.cpp></bin>
